@@ -1,17 +1,47 @@
 import express from 'express';
-import { obtenerSuperheroePorIdController, buscarSuperheroesPorAtributoController, obtenerSuperheroesMayoresde30Controller, verSuperheroesController } from './controllers/superheroesController.mjs';
+
+import { connectDB } from './config/dbConfig.mjs';
+
+import superHeroRoutes from './routes/superHeroRoutes.mjs';
+
+
 
 const app = express();
-const PORT = 3000;
 
-app.get('/superheroes/id/:id', obtenerSuperheroePorIdController);
+const PORT = process.env.PORT || 3007;
 
-app.get('/superheroes/atributo/:atributo/:valor', buscarSuperheroesPorAtributoController);
 
-app.get('/superheroes/edad/mayorA30', obtenerSuperheroesMayoresde30Controller);
 
-app.get('/superheroes', verSuperheroesController);
+// Middleware para parsear JSON
+
+app.use(express.json());
+
+
+
+//conexion a MongoDB
+
+connectDB();
+
+
+// Rutas
+app.use('/api', superHeroRoutes);
+
+
+//manejo de errores para rutas no encontradas
+
+app.use((req,res)=>{
+
+    res.status(404).send({mensaje: 'Ruta no encontrada'});
+
+});
+
+
+
+// Iniciar el servidor
 
 app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+
+
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+
 });

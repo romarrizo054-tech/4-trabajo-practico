@@ -1,25 +1,20 @@
 
-import SuperheroesRepository from "../repository/superheroesRepository.mjs";
+import superheroesRepository from "../repository/superheroesRepository.mjs";
 
-const repository = new SuperheroesRepository();
 
-export function obtenerSuperheroePorId(id){
-    const superheroes = repository.obtenerTodos();
-    return superheroes.find(hero => hero.id === id);
+
+export async function obtenerSuperheroePorId(id){
+    return await superheroesRepository.obtenerPorId(id);
 }
 
-export function buscarSuperheroesPorAtributo(atributo, valor){
-    const superheroes = repository.obtenerTodos();
-    return superheroes.filter(hero => 
-        String(hero[atributo]).toLowerCase().includes(valor.toLowerCase()));
+export async function obtenerTodosLosSuperheroes(){
+    return await superheroesRepository.obtenerTodos();
 }
 
-export function obtenerSuperheroesMayoresde30(){
-    const superheroes = repository.obtenerTodos();
-    return superheroes.filter(hero =>
-        hero.edad > 30);
+export async function buscarSuperheroesPorAtributo(atributo, valor){
+    return await superheroesRepository.buscarPorAtributo(atributo, valor);
 }
 
-export function verSuperheroes(){
-    return repository.obtenerTodos();
+export async function obtenerSuperheroesMayoresde30(){
+    return await superheroesRepository.obtenerMayoresDe30();
 }
